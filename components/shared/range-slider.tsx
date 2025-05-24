@@ -45,7 +45,7 @@ const RangeSlider = React.forwardRef(
         onValueChange={handleValueChange}
         className={cn('relative flex w-full touch-none select-none mb-6 items-center', className)}
         {...props}>
-        <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-primary/20">
+        <SliderPrimitive.Track className="relative h-[6px] w-full grow overflow-hidden rounded-full bg-primary/20">
           <SliderPrimitive.Range className="absolute h-full bg-primary" />
         </SliderPrimitive.Track>
         {localValues.map((value, index) => (
