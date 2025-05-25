@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Title } from './title';
 import { Input } from '../ui';
 import { RangeSlider } from './range-slider';
@@ -21,13 +21,11 @@ export const Filters: React.FC<Props> = ({ className }) => {
     text: ingredient.name,
     value: String(ingredient.id),
   }));
-  
 
   const updatePrices = (prices: number[]) => {
-    filters.setPrices('priceFrom', prices[0])
-    filters.setPrices('priceTo', prices[1])
-  }
-
+    filters.setPrices('priceFrom', prices[0]);
+    filters.setPrices('priceTo', prices[1]);
+  };
 
   return (
     <div className={className}>
@@ -69,7 +67,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
             placeholder="0"
             min={0}
             max={1000}
-            value={filters.prices.priceFrom}
+            value={filters.prices.priceFrom || 0}
             onChange={(e) => filters.setPrices('priceFrom', Number(e.target.value))}
           />
           <Input
@@ -77,7 +75,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
             placeholder="1000"
             min={100}
             max={1000}
-            value={filters.prices.priceTo}
+            value={filters.prices.priceTo || 1000}
             onChange={(e) => filters.setPrices('priceTo', Number(e.target.value))}
           />
         </div>
