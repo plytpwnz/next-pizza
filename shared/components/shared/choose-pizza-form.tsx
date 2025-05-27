@@ -6,14 +6,19 @@ import { Button } from '../ui';
 import { DialogTitle } from '../ui/dialog';
 import { PizzaImage } from './pizza-image';
 import { GroupVariants } from './group-variants';
-import { PizzaSize, pizzaSizes, PizzaType, pizzaTypes } from '@/shared/constants/pizza';
+import { PizzaSize, pizzaSizes, PizzaType } from '@/shared/constants/pizza';
+import { Ingredient, ProductItem } from '@prisma/client';
+import { IngredientItem } from './ingredient-item';
+import { useSet } from 'react-use';
+import { getAvailablePizzaTypes, getPizzaDetails } from '@/shared/lib';
+import { useAvailablePizzaType } from '@/shared/hooks';
 
 interface Props {
   imageUrl: string;
   name: string;
-  ingredients: any[];
-  items?: any[];
-  onClickAdd?: VoidFunction;
+  ingredients: Ingredient[];
+  items: ProductItem[];
+  onClickAddCart?: VoidFunction;
   className?: string;
 }
 
@@ -22,14 +27,37 @@ export const ChoosePizzaForm: React.FC<Props> = ({
   items,
   imageUrl,
   ingredients,
-  onClickAdd,
+  onClickAddCart,
   className,
 }) => {
   const [size, setSize] = useState<PizzaSize>(20);
   const [type, setType] = useState<PizzaType>(1);
 
-  const textDetails = '30 см, традиционное тесто 30';
-  const totalPrice = 350;
+  const [selectedIngredients, { toggle: addIngredients }] = useSet(new Set<number>([]));
+
+  // позволяет получить доступные типы теста у пиццы каждого размера
+  const availablePizzasTypes = getAvailablePizzaTypes(items, size);
+
+  // выбор типа пиццы
+  const pickedType = useAvailablePizzaType(availablePizzasTypes, type);
+
+  // общая цена + описание типа и размера пиццы
+  const { totalPrice, textDetails } = getPizzaDetails(
+    size,
+    pickedType,
+    items,
+    ingredients,
+    selectedIngredients,
+  );
+
+  const handleClickAdd = () => {
+    onClickAddCart?.();
+    console.log({
+      size,
+      type,
+      ingredients: selectedIngredients,
+    });
+  };
 
   return (
     <div className={cn('flex flex-1', className)}>
@@ -40,7 +68,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 
         <p className="text-gray-400">{textDetails}</p>
 
-        <div className='flex flex-col gap-3 mt-5'>
+        <div className="flex flex-col gap-3 mt-5">
           <GroupVariants
             items={pizzaSizes}
             value={String(size)}
@@ -48,13 +76,28 @@ export const ChoosePizzaForm: React.FC<Props> = ({
           />
 
           <GroupVariants
-            items={pizzaTypes}
-            value={String(type)}
+            items={availablePizzasTypes}
+            value={String(pickedType)}
             onClick={(value) => setType(Number(value) as PizzaType)}
           />
         </div>
 
-        <Button className="h-[55px] px-10 text-base rounded-[25px] w-full mt-10">
+        <div className="bg-gray-50 p-5 rounded-md h-[420px] overflow-auto scrollbar mt-5">
+          <div className="grid grid-cols-3 gap-3">
+            {ingredients.map((ingredient) => (
+              <IngredientItem
+                key={ingredient.id}
+                {...ingredient}
+                onClick={() => addIngredients(ingredient.id)}
+                active={selectedIngredients.has(ingredient.id)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <Button
+          onClick={handleClickAdd}
+          className="h-[55px] px-10 text-base rounded-[25px] w-full mt-10">
           Добавить в корзину за {totalPrice} ₽
         </Button>
       </div>
