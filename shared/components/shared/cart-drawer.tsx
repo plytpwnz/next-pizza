@@ -22,11 +22,18 @@ interface Props {
 }
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
-  const { totalAmount, fetchCartItems, items } = useCartStore((state) => state);
+  const { items, totalAmount, fetchCartItems, updateItemQuantity, removeCartItem } = useCartStore(
+    (state) => state,
+  );
 
   useEffect(() => {
     fetchCartItems();
   }, []);
+
+  const onClickCountButton = (id: number, type: 'plus' | 'minus', quantity: number) => {
+    const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
 
   return (
     <Sheet>
@@ -48,6 +55,8 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
               name={item.name}
               quantity={item.quantity}
               price={item.price}
+              onClickCountButton={(type) => onClickCountButton(item.id, type, item.quantity)}
+              onClickRemove={() => removeCartItem(item.id)}
               details={
                 item.pizzaSize && item.pizzaType
                   ? getCartItemDetails(
@@ -59,16 +68,6 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
               }
             />
           ))}
-          {/* <CartDrawerItem
-            id={1}
-            imageUrl={
-              'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-            }
-            name={'Пепперони фреш'}
-            quantity={1}
-            price={495}
-            details="30 см, традиционное тесто."
-          /> */}
         </div>
 
         <SheetFooter className="bg-white p-8">
