@@ -6,14 +6,24 @@ import { DialogTitle } from '../ui/dialog';
 interface Props {
   imageUrl: string;
   name: string;
-  onClickAdd?: VoidFunction;
+  price: number;
+  loading?: boolean;
+  onSubmit?: VoidFunction;
   className?: string;
 }
 
-export const ChooseProductForm: React.FC<Props> = ({ name, imageUrl, onClickAdd, className }) => {
-  const textDetails = '30 см, традиционное тесто 30';
-  const totalPrice = 350;
+/**
+ * Форма выбора продукта
+ */
 
+export const ChooseProductForm: React.FC<Props> = ({
+  name,
+  imageUrl,
+  price,
+  loading,
+  onSubmit,
+  className,
+}) => {
   return (
     <div className={cn('flex flex-1', className)}>
       <div className="flex items-center justify-center flex-1 relative w-full">
@@ -27,10 +37,11 @@ export const ChooseProductForm: React.FC<Props> = ({ name, imageUrl, onClickAdd,
       <div className="w-[490px] bg-[#f7f6f5] p-7">
         <DialogTitle className="font-extrabold mb-1 text-2xl">{name}</DialogTitle>
 
-        <p className="text-gray-400">{textDetails}</p>
-
-        <Button className="h-[55px] px-10 text-base rounded-[25px] w-full mt-10">
-          Добавить в корзину за {totalPrice} ₽
+        <Button
+          loading={loading}
+          onClick={onSubmit}
+          className="h-[55px] px-10 text-base rounded-[25px] w-full mt-10">
+          Добавить в корзину за {price} ₽
         </Button>
       </div>
     </div>

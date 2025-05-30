@@ -69,21 +69,21 @@ export async function POST(req: NextRequest) {
           quantity: findCartItem.quantity + 1,
         },
       });
+    } else {
+      await prisma.cartItem.create({
+        data: {
+          cartId: userCart.id,
+          productItemId: data.productItemId,
+          quantity: 1,
+          ingredients: {
+            connect: data.ingredients?.map((ingredientId) => ({ id: ingredientId })),
+          },
+        },
+      });
     }
 
-    await prisma.cartItem.create({
-      data: {
-        cartId: userCart.id,
-        productItemId: data.productItemId,
-        quantity: 1,
-        ingredients: {
-          connect: data.ingredients?.map((ingredientId) => ({ id: ingredientId })),
-        },
-      },
-    });
-
     const updatedUserCart = await updateCartTotalAmount(token);
-    
+
     const resp = NextResponse.json(updatedUserCart);
 
     if (token !== req.cookies.get('cartToken')?.value) {
