@@ -22,9 +22,8 @@ interface Props {
 }
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
-  const { items, totalAmount, fetchCartItems, updateItemQuantity, removeCartItem } = useCartStore(
-    (state) => state,
-  );
+  const { items, totalAmount, loading, fetchCartItems, updateItemQuantity, removeCartItem } =
+    useCartStore((state) => state);
 
   useEffect(() => {
     fetchCartItems();
@@ -82,7 +81,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
             </div>
 
             <Link href="/cart">
-              <Button type="submit" className="w-full h-12 text-base">
+              <Button loading={loading} type="submit" className="w-full h-12 text-base">
                 Оформить заказ
                 <ArrowRight className="w-5 ml-2" />
               </Button>
