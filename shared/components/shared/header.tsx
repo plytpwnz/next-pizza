@@ -9,12 +9,18 @@ import { SearchInput } from './search-input';
 import { CartButton } from './cart-button';
 
 interface Props {
+  hasSearch?: boolean;
+  hasCart?: boolean;
   className?: string;
 }
 
-export const Header: React.FC<React.PropsWithChildren<Props>> = ({ className }) => {
+export const Header: React.FC<React.PropsWithChildren<Props>> = ({
+  hasCart = true,
+  hasSearch = true,
+  className,
+}) => {
   return (
-    <header className={cn('border border-b', className)}>
+    <header className={cn('border-b', className)}>
       <Container className="flex items-center justify-between py-8">
         {/* Левая часть хедера */}
         <Link href="/">
@@ -28,9 +34,11 @@ export const Header: React.FC<React.PropsWithChildren<Props>> = ({ className }) 
           </div>
         </Link>
 
-        <div className="mx-10 flex-1">
-          <SearchInput />
-        </div>
+        {hasSearch && (
+          <div className="mx-10 flex-1">
+            <SearchInput />
+          </div>
+        )}
 
         {/* Правая часть хедера */}
         <div className="flex items-center gap-3">
@@ -39,7 +47,7 @@ export const Header: React.FC<React.PropsWithChildren<Props>> = ({ className }) 
             Войти
           </Button>
 
-          <CartButton />
+          {hasCart && <CartButton />}
         </div>
       </Container>
     </header>

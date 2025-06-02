@@ -51,22 +51,34 @@ export async function POST(req: NextRequest) {
 
     const data = (await req.json()) as createCartItemValues;
 
-    const findCartItem = await prisma.cartItem.findFirst({
+    const findCartItem = await prisma.cartItem.findMany({
       where: {
         cartId: userCart.id,
         productItemId: data.productItemId,
-        ingredients: { every: { id: { in: data.ingredients } } },
+      },
+      include: {
+        ingredients: true,
       },
     });
 
+    const foundItem = findCartItem.find((item) => {
+      const ingredients = item.ingredients.map((ingredient) => ingredient.id);
+      const dataIngredients = data.ingredients || [];
+
+      return (
+        item.ingredients.length === dataIngredients.length &&
+        ingredients.every((ingredient) => dataIngredients.includes(ingredient))
+      );
+    });
+
     // Если товар найден в корзине, то увеличиваем его количество на 1
-    if (findCartItem) {
+    if (foundItem) {
       await prisma.cartItem.update({
         where: {
-          id: findCartItem.id,
+          id: foundItem.id,
         },
         data: {
-          quantity: findCartItem.quantity + 1,
+          quantity: foundItem.quantity + 1,
         },
       });
     } else {
