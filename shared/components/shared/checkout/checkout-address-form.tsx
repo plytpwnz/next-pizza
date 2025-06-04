@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import { WhiteBlock } from '../white-block';
-import { Input, Textarea } from '../../ui';
+import { FormTextarea } from '../form';
+import { AddressInput } from '../address-input';
 
 interface Props {
   className?: string;
@@ -8,14 +11,11 @@ interface Props {
 
 export const CheckoutAddressForm: React.FC<Props> = ({ className }) => {
   return (
-    <WhiteBlock title="3. Адрес доставки">
+    <WhiteBlock title="3. Адрес доставки" className={className}>
       <div className="flex flex-col gap-5">
-        <Input name="firstName" className="text-base" placeholder="Введите адрес..." />
-        <Textarea
-          className="text-base resize-none h-20"
-          rows={5}
-          placeholder="Комментарий к заказу"
-        />
+        <AddressInput />
+
+        <FormTextarea name="comment" rows={5} placeholder="Комментарий к заказу" />
       </div>
     </WhiteBlock>
   );
