@@ -128,7 +128,7 @@ model Order {
   items Json
 
   fullName String
-  adress   String
+  address  String
   email    String
   phone    String
   comment  String?
