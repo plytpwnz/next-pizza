@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Filters } from './use-filters';
 import qs from 'qs';
 import { useRouter } from 'next/navigation';
 
 export const useQueryFilters = (filters: Filters) => {
+  const isMounted = useRef(false);
   const router = useRouter();
   const params = {
     ...filters.prices,
@@ -18,7 +19,11 @@ export const useQueryFilters = (filters: Filters) => {
   });
 
   useEffect(() => {
-    router.push(`?${query}`, { scroll: false });
+    if (isMounted.current) {
+      router.push(`?${query}`, { scroll: false });
+    }
+
+    isMounted.current = true;
   }, [query]);
   // [filters, router]
 };

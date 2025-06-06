@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   // experimental: {
   //   optimizePackageImports: [
-  //     // СЮДА ПЕРЕДАТЬ СПИСОК ПАКТОВ В ВИДЕ МАССИВА ДЛЯ ОПТИМИЗАЦИИ
+  //     // СЮДА ПЕРЕДАТЬ СПИСОК ПАКЕТОВ В ВИДЕ МАССИВА ДЛЯ ОПТИМИЗАЦИИ
   //   ],
   // },
 };
