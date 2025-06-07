@@ -4,7 +4,6 @@ import { useCartStore } from '@/shared/store/cart';
 import React from 'react';
 import { ChoosePizzaForm } from './choose-pizza-form';
 import { ChooseProductForm } from './choose-product-form';
-import { useRouter } from 'next/navigation';
 import { ProductWithRelations } from '@/@types/prisma';
 import toast from 'react-hot-toast';
 
