@@ -11,10 +11,18 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
   required?: boolean;
+  isPassword?: boolean;
   className?: string;
 }
 
-export const FormInput: React.FC<Props> = ({ name, label, required, className, ...props }) => {
+export const FormInput: React.FC<Props> = ({
+  name,
+  label,
+  required,
+  isPassword,
+  className,
+  ...props
+}) => {
   const {
     register,
     formState: { errors },
@@ -40,7 +48,7 @@ export const FormInput: React.FC<Props> = ({ name, label, required, className, .
       <div className="relative">
         <Input className="h-12 text-md" {...register(name)} {...props} />
 
-        {value && <ClearButton onClick={onClickClear} />}
+        {value && !isPassword && <ClearButton onClick={onClickClear} />}
       </div>
 
       {errorText && <ErrorText text={errorText} className="mt-2" />}

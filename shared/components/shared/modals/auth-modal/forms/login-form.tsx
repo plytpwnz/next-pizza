@@ -27,8 +27,6 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
         ...data,
         redirect: false,
       });
-      console.log('resp', resp);
-      console.log('data', data);
 
       if (!resp?.ok) {
         throw Error();
@@ -59,7 +57,14 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
         </div>
 
         <FormInput name="email" label="E-Mail" placeholder="E-Mail" required />
-        <FormInput name="password" label="password" type="password" placeholder="Пароль" required />
+        <FormInput
+          name="password"
+          label="Пароль"
+          type="password"
+          placeholder="Пароль"
+          isPassword
+          required
+        />
 
         <Button loading={form.formState.isSubmitting} className="h-12 text-base" type="submit">
           Войти
