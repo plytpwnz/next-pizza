@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib";
+import { cn } from '@/shared/lib';
 
 interface Props {
   src: string;

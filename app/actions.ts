@@ -1,7 +1,11 @@
 'use server';
 
 import { prisma } from '@/prisma/prisma-client';
-import { CheckoutFormValues, PayOrderTemplate } from '@/shared/components/shared';
+import {
+  CheckoutFormValues,
+  PayOrderTemplate,
+  VerificationUserTemplate,
+} from '@/shared/components/shared';
 import { createPayment, sendEmail } from '@/shared/lib';
 import { getUserSession } from '@/shared/lib/get-user-session';
 import { Prisma } from '@prisma/client';
@@ -163,9 +167,20 @@ export async function registerUser(body: Prisma.UserCreateInput) {
       },
     });
 
-    
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
 
+    await prisma.verificationCode.create({
+      data: {
+        userId: createdUser.id,
+        code: code,
+      },
+    });
 
+    await sendEmail(
+      createdUser.email,
+      'Next Pizza / 📝 Подтверждение регистрации',
+      VerificationUserTemplate({ code }),
+    );
   } catch (error) {
     console.log('[REGISTER_USER] Server Error', error);
     throw error;

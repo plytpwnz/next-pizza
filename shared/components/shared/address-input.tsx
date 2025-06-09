@@ -1,7 +1,7 @@
 'use client';
 
 import { AddressFinder } from '@ideal-postcodes/address-finder';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { FormInput } from './form';
 import React from 'react';
 

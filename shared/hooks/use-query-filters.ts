@@ -25,5 +25,4 @@ export const useQueryFilters = (filters: Filters) => {
 
     isMounted.current = true;
   }, [query]);
-  // [filters, router]
 };

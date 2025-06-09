@@ -9,7 +9,7 @@ export const formLoginSchema = z.object({
   password: passwordSchema,
 });
 
-export const formRegisterSchema = formLoginSchema 
+export const formRegisterSchema = formLoginSchema
   .merge(
     z.object({
       fullName: z.string().min(3, { message: 'Имя должно содержать не менее 3-х символов' }),
@@ -21,5 +21,5 @@ export const formRegisterSchema = formLoginSchema
     path: ['confirmPassword'],
   });
 
-  export type TFormLoginValues = z.infer<typeof formLoginSchema>;
-  export type TFormRegisterValues = z.infer<typeof formRegisterSchema>;
+export type TFormLoginValues = z.infer<typeof formLoginSchema>;
+export type TFormRegisterValues = z.infer<typeof formRegisterSchema>;

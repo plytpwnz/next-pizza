@@ -38,7 +38,7 @@ export const CheckoutItem: React.FC<Props> = ({
 
       <div className="flex items-center gap-5 ml-20">
         <CountButton onClick={onClickCountButton} value={quantity} />
-        <button type='button' onClick={onClickRemove}>
+        <button type="button" onClick={onClickRemove}>
           <X className="text-gray-400 cursor-pointer hover:text-gray-600" size={20} />
         </button>
       </div>

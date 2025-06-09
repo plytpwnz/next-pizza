@@ -3,11 +3,15 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const ingredients = await prisma.ingredient.findMany();
+    const stories = await prisma.story.findMany({
+      include: {
+        items: true,
+      },
+    });
 
-    return NextResponse.json(ingredients);
+    return NextResponse.json(stories);
   } catch (error) {
-    console.log('[GET_INGREDIENTS] Server Error', error);
+    console.log('[GET_STORIES] Server Error', error);
 
     return NextResponse.json({ message: 'Error' }, { status: 500 });
   }

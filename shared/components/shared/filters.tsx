@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { Title } from './title';
-import { Input } from '../ui';
-import { RangeSlider } from './range-slider';
+import { Input, RangeSlider } from '../ui';
 import { CheckboxFiltersGroup } from './checkbox-filters-group';
 import { useQueryFilters, useFilters, useIngredients } from '@/shared/hooks';
 

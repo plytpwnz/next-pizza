@@ -1,7 +1,7 @@
 'use client';
 
-import { useCartStore } from '@/shared/store/cart';
 import React from 'react';
+import { useCartStore } from '@/shared/store/cart';
 import { ChoosePizzaForm } from './choose-pizza-form';
 import { ChooseProductForm } from './choose-product-form';
 import { ProductWithRelations } from '@/@types/prisma';
