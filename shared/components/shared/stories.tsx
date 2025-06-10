@@ -37,14 +37,12 @@ export const Stories: React.FC<Props> = ({ className }) => {
   };
 
   useEffect(() => {
-    const handler = (event: any) => {
-      if (!modalRef.current) {
-        return;
-      }
-      if (!modalRef.current.contains(event.target)) {
+    const handler = (event: MouseEvent) => {
+      if (modalRef.current && !event.composedPath().includes(modalRef.current)) {
         setOpen(false);
       }
     };
+
     document.addEventListener('click', handler, true);
     return () => {
       document.removeEventListener('click', handler);
